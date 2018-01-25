@@ -1,0 +1,6 @@
+- name: echo hello on host
+  command: echo "hello, {{hello_name}}"
+  register: rs_say_hello
+
+- debug:
+    var: rs_say_hello.stdout_lines

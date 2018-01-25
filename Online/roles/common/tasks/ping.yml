@@ -1,0 +1,6 @@
+- name: ping test connection
+  ping:
+  register: rs_ping
+
+- debug:
+    var: rs_ping.stdout_lines

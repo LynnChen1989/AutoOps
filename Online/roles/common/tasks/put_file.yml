@@ -1,0 +1,13 @@
+- name: copy local file to remote
+  copy: src=file_a.txt dest=/tmp/file_a.txt owner=root group=root mode="u+rw,g-wx,o-rwx"
+  register: rs_put_file
+
+- debug:
+    var: rs_put_file.stdout_lines
+
+- name: check put file
+  command: bash -c "ls -l /tmp/file_a.txt"
+  register: rs_check_file
+
+- debug:
+    var: rs_check_file.stdout_lines

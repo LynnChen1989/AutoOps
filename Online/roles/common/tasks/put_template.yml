@@ -1,0 +1,9 @@
+- name: put template file to remote
+  template: src=example.j2 dest=/tmp/example.conf owner=root group=root mode="u=rw,g=r,o=r"
+
+- name: check templete content on remote
+  command: cat /tmp/example.conf
+  register: tpl_content
+
+- debug:
+    var: tpl_content.stdout_lines

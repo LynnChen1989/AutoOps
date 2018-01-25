@@ -1,0 +1,9 @@
+---
+- name: test play book
+  hosts: "{{host}}"
+  user: root
+  gather_facts: false
+  vars_files:
+    - host_vars/config.yml
+  roles:
+    - common

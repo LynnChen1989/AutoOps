@@ -1,0 +1,14 @@
+- include_tasks: ping.yml
+  when: hehe
+
+- import_tasks: put_file.yml
+
+- import_tasks: say_hello.yml
+
+- import_tasks: listen.yml
+
+- import_tasks: put_template.yml
+
+# ansible-playbook -i prod_inventory/inventory.py -e host=company -e hehe=false enable_ntp.yml
+# include_tasks是的动态包含，可以进行条件判断
+# import_tasks是静态包含

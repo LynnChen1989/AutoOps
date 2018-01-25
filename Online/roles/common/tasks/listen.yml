@@ -1,0 +1,6 @@
+- name: get port listen
+  command: bash -c "netstat -tunlp"
+  register: listen
+
+- debug:
+    var: listen.stdout_lines
