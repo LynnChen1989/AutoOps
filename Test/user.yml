@@ -1,0 +1,10 @@
+---
+- hosts: "all"
+  user: "root"
+  gather_facts: false
+
+  tasks:
+  - name: add new user: "{{ user }}"
+    user:
+      name: "{{ user }}"
+      shell: /bin/bash

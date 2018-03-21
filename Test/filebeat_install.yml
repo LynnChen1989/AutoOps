@@ -1,0 +1,67 @@
+---
+- hosts: "all"
+  user: "root"
+  gather_facts: true
+
+  tasks:
+  - name: remove the old package
+    yum:
+      name: filebeat
+      state: absent
+
+  - name: delete old install file
+    file:
+      name: /tmp/filebeat-6.2.2-x86_64.rpm
+      state: absent
+
+  - name: cp file to destination
+    copy:
+      src: /Users/snake/Develop/code/AutoOps/Test/file/filebeat-6.2.2-x86_64.rpm
+      dest: /tmp/filebeat-6.2.2-x86_64.rpm
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: install filebeat
+    yum:
+      name: /tmp/filebeat-6.2.2-x86_64.rpm
+      state: present
+
+  - name: cp config file
+    copy:
+      src: /Users/snake/Develop/code/AutoOps/Test/file/filebeat.yml
+      dest: /etc/filebeat/filebeat.yml
+      owner: root
+      group: root
+      mode: 0600
+
+  - name: enable filebeat system module
+    command: bash -c "filebeat modules enable system"
+    register: fb
+
+  - debug: msg="{{ fb.stdout_lines}}"
+
+  - name: centos7 start filebeat
+    systemd:
+      state: started
+      name: filebeat
+    when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+  - name: centos6 start filebeat
+    service:
+      name: filebeat
+      state: started
+    when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "6"
+
+  - name: check status
+    command: bash -c "ps -ef| grep filebeat| grep -v grep"
+    register: status
+
+  - debug: msg="{{ status.stdout_lines}}"
+
+
+#  - name: centos7 restart filebeat
+#    systemd:
+#      state: restarted
+#      name: filebeat
+#    when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"

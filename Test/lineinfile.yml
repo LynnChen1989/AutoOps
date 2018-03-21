@@ -1,0 +1,18 @@
+---
+- hosts: "all"
+  user: "root"
+  gather_facts: false
+
+  tasks:
+  - name: append etc hosts
+    lineinfile:
+      dest=/etc/hosts
+      state=present
+      regexp='^'
+      line="47.100.37.86  ali-sh-log-es-node01\n139.224.232.240  ali-sh-log-es-node02\n106.14.113.220  ali-sh-log-es-node03"
+
+  - name: delete etc hosts
+    lineinfile:
+      dest=/etc/hosts
+      state=absent
+      regexp='^ali-sh*'
